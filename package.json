@@ -1,0 +1,85 @@
+{
+  "name": "pinsandcurves",
+  "displayName": "Pins And Curves",
+  "description": "",
+  "icon": "images/pinsandcurvesicon.png",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:xml"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "menus": {
+      "editor/title": [
+        {
+          "command": "pinsandcurves.toggleServer",
+          "when": "resourceFilename =~ /.pinsandcurves.xml$/ && !pinsandcurves.serverRunning",
+          "group": "navigation"
+        },
+        {
+          "command": "pinsandcurves.toggleServer",
+          "when": "resourceFilename =~ /.pinsandcurves.xml$/ && pinsandcurves.serverRunning",
+          "title": "Stop Server",
+          "group": "navigation"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "pinsandcurves.toggleServer",
+        "title": "Run Server"
+      }
+    ],
+    "languages": [
+      {
+        "filenamePatterns": [
+          "*.pinsandcurves.xml"
+        ],
+        "id": "xml",
+        "extensions": [
+          ".pinsandcurves.xml"
+        ],
+        "aliases": [
+          "Pins and Curves XML"
+        ],
+        "icon": {
+          "light": "./resources/pinsandcurves-icon.svg",
+          "dark": "./resources/pinsandcurves-icon.svg"
+        }
+        
+      }
+    ]
+
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.96.0",
+    "@types/ws": "^8.5.13",
+    "@typescript-eslint/eslint-plugin": "^8.17.0",
+    "@typescript-eslint/parser": "^8.17.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.16.0",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "http": "^0.0.1-security",
+    "open": "^10.1.0",
+    "ws": "^8.18.0"
+  }
+}
