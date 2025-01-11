@@ -3,9 +3,16 @@
   "displayName": "Pins And Curves",
   "description": "",
   "icon": "images/pinsandcurvesicon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mtrifonov-design/pinsandcurves-vscode-extension.git"
+  },
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.96.0"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "categories": [
     "Other"
@@ -14,6 +21,7 @@
     "onLanguage:xml"
   ],
   "main": "./out/extension.js",
+  "publisher": "PinsAndCurves",
   "contributes": {
     "menus": {
       "editor/title": [
