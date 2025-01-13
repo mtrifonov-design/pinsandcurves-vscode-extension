@@ -27,13 +27,7 @@
       "editor/title": [
         {
           "command": "pinsandcurves.toggleServer",
-          "when": "resourceFilename =~ /.pinsandcurves.xml$/ && !pinsandcurves.serverRunning",
-          "group": "navigation"
-        },
-        {
-          "command": "pinsandcurves.toggleServer",
-          "when": "resourceFilename =~ /.pinsandcurves.xml$/ && pinsandcurves.serverRunning",
-          "title": "Stop Server",
+          "when": "resourceFilename =~ /.pinsandcurves.xml$/",
           "group": "navigation"
         }
       ]
@@ -41,7 +35,12 @@
     "commands": [
       {
         "command": "pinsandcurves.toggleServer",
-        "title": "Run Server"
+        "title": "Pins And Curves",
+        "icon": {
+          "light": "images/pinsandcurvesiconlightmodepng.png",
+          "dark": "images/pinsandcurvesicondarkmodepng.png"
+        }
+
       }
     ],
     "languages": [
