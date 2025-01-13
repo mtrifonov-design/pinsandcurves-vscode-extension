@@ -3,11 +3,12 @@ import * as http from 'http';
 import * as fs from 'fs';
 import * as path from 'path';
 import WebSocket from 'ws';
+import chokidar from 'chokidar';
 
 let server: http.Server | undefined;
 let wss: WebSocket.Server | undefined;
 let statusBarButton: vscode.StatusBarItem;
-
+let watchPaused = false;
 
 function setServerContext(isRunning: boolean) {
   vscode.commands.executeCommand('setContext', 'pinsandcurves.serverRunning', isRunning);
@@ -41,6 +42,7 @@ async function startWebServer(context: vscode.ExtensionContext) {
   }
 
   const jsonFilePath = path.join(workspacePath, 'project.pinsandcurves.json');
+  const xmlFilePath = path.join(workspacePath, 'scene.pinsandcurves.xml');
 
   server = http.createServer((req, res) => {
     const reqUrl = req.url || '/';
@@ -77,6 +79,32 @@ async function startWebServer(context: vscode.ExtensionContext) {
         } catch (err) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: 'Invalid JSON' }));
+        }
+      });
+
+    } else if (reqUrl === '/set-xml' && method === 'POST') {
+      // Handle /set-json endpoint
+
+
+      let body = '';
+      req.on('data', chunk => {
+
+        body += chunk.toString();
+      });
+
+      req.on('end', () => {
+        try {
+          watchPaused = true;
+          setTimeout(() => {
+            watchPaused = false;
+          }, 5000);
+          fs.writeFileSync(xmlFilePath, body);
+          res.writeHead(200, { 'Content-Type': 'text/xml' });
+          res.end(JSON.stringify({ success: true }));
+        } catch (err) {
+          watchPaused = false;
+          res.writeHead(400, { 'Content-Type': 'text/xml' });
+          res.end(JSON.stringify({ error: 'Invalid XML' }));
         }
       });
 
@@ -141,41 +169,55 @@ async function startWebServer(context: vscode.ExtensionContext) {
   wss = new WebSocket.Server({ port: wsPort });
   vscode.window.showInformationMessage(`WebSocket server running at ws://127.0.0.1:${wsPort}/`);
 
-  // const filePathToWatch = findPinsAndCurvesFile(workspacePath);
-  // if (filePathToWatch && fs.existsSync(filePathToWatch)) {
-  //   fs.watch(filePathToWatch, () => {
-  //     console.log(`File changed: ${filePathToWatch}`);
-  //     wss?.clients.forEach(client => {
-  //       if (client.readyState === WebSocket.OPEN) {
-  //         client.send('refresh'); // Notify all clients to refresh
-  //       }
-  //     });
-  //   });
-  // }
-
   const filePathToWatch = workspacePath; // Watch the entire workspace folder
 
   // Exclude the JSON file from being watched
   const jsonFileName = path.basename(jsonFilePath);
 
-  fs.watch(filePathToWatch, { recursive: true }, (eventType, fileName) => {
-    if (!fileName) { return; };
 
-    const changedFilePath = path.join(filePathToWatch, fileName);
 
+  const watcher = chokidar.watch(filePathToWatch, {
+    ignored: jsonFilePath, // Ignore the JSON file
+    ignoreInitial: true,
+  });
+
+  watcher.on('change', (changedFilePath) => {
+    if (watchPaused) { return; };
+    console.log(`File changed: ${changedFilePath}`);
     if (path.basename(changedFilePath) === jsonFileName) {
       // Ignore changes to the JSON file
       return;
     }
-
-    // Restart the server on any other file change
-    console.log(`File changed: ${changedFilePath}. Restarting server...`);
     wss?.clients.forEach(client => {
       if (client.readyState === WebSocket.OPEN) {
-        client.send('refresh'); // Notify all clients to refresh
+        client.send('refresh');
       }
     });
   });
+
+
+
+
+  // fs.watch(filePathToWatch, { recursive: true }, (eventType, fileName) => {
+  //   console.log("watch is pause?:",watchPaused);
+  //   if (watchPaused) { return; }
+  //   if (!fileName) { return; };
+
+  //   const changedFilePath = path.join(filePathToWatch, fileName);
+
+  //   if (path.basename(changedFilePath) === jsonFileName) {
+  //     // Ignore changes to the JSON file
+  //     return;
+  //   }
+
+  //   // Restart the server on any other file change
+  //   console.log(`File changed: ${changedFilePath}. Restarting server...`);
+  //   wss?.clients.forEach(client => {
+  //     if (client.readyState === WebSocket.OPEN) {
+  //       client.send('refresh'); // Notify all clients to refresh
+  //     }
+  //   });
+  // });
 
 
 }
