@@ -316,6 +316,11 @@ function stopWebServer() {
     });
   }
   if (wss) {
+    wss.clients.forEach(client => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.close();
+      }
+    });
     wss.close(() => {
       console.log('WebSocket server has been stopped.');
       wss = undefined;
