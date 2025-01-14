@@ -18,9 +18,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onLanguage:xml",
-    "onCommand:pinsandcurves.toggleServer",
-    "onCommand:pinsandcurves.createProject"
+    "onLanguage:xml"
   ],
   "main": "./out/extension.js",
   "publisher": "PinsAndCurves",
