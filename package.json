@@ -35,7 +35,11 @@
     "commands": [
       {
         "command": "pinsandcurves.toggleServer",
-        "title": "Pins And Curves"
+        "title": "Start/Stop Pins And Curves Server",
+        "icon": {
+          "light": "images/pinsandcurvesiconlightmode.svg",
+          "dark": "images/pinsandcurvesicondarkmode.svg"
+        }
       },
       {
         "command": "pinsandcurves.createProject",
