@@ -35,11 +35,7 @@
     "commands": [
       {
         "command": "pinsandcurves.toggleServer",
-        "title": "Pins And Curves",
-        "icon": {
-          "light": "images/pinsandcurvesiconlightmode.svg",
-          "dark": "images/pinsandcurvesicondarkmode.svg"
-        }
+        "title": "Pins And Curves"
       },
       {
         "command": "pinsandcurves.createProject",
@@ -61,11 +57,7 @@
         ],
         "aliases": [
           "Pins and Curves XML"
-        ],
-        "icon": {
-          "light": "images/pinsandcurvesiconlightmode.svg",
-          "dark": "images/pinsandcurvesicondarkmode.svg"
-        }
+        ]
       }
     ]
   },
