@@ -43,7 +43,7 @@
       },
       {
         "command": "pinsandcurves.createProject",
-        "title": "Create New Pins And Curevs Project",
+        "title": "Create New Pins And Curves Project",
         "icon": {
           "light": "images/pinsandcurvesiconlightmode.svg",
           "dark": "images/pinsandcurvesicondarkmode.svg"
@@ -63,8 +63,8 @@
           "Pins and Curves XML"
         ],
         "icon": {
-          "light": "./resources/pinsandcurves-icon.svg",
-          "dark": "./resources/pinsandcurves-icon.svg"
+          "light": "images/pinsandcurvesiconlightmode.svg",
+          "dark": "images/pinsandcurvesicondarkmode.svg"
         }
       }
     ]
