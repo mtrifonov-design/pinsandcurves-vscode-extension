@@ -88,6 +88,7 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
+    "chokidar": "^4.0.3",
     "http": "^0.0.1-security",
     "open": "^10.1.0",
     "ws": "^8.18.0"
