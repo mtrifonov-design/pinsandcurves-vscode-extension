@@ -37,10 +37,17 @@
         "command": "pinsandcurves.toggleServer",
         "title": "Pins And Curves",
         "icon": {
-          "light": "images/pinsandcurvesiconlightmodepng.png",
-          "dark": "images/pinsandcurvesicondarkmodepng.png"
+          "light": "images/pinsandcurvesiconlightmode.svg",
+          "dark": "images/pinsandcurvesicondarkmode.svg"
         }
-
+      },
+      {
+        "command": "pinsandcurves.createProject",
+        "title": "Create New Pins And Curevs Project",
+        "icon": {
+          "light": "images/pinsandcurvesiconlightmode.svg",
+          "dark": "images/pinsandcurvesicondarkmode.svg"
+        }
       }
     ],
     "languages": [
